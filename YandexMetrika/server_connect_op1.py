@@ -86,7 +86,7 @@ conn.commit()
 
 
 # %%
-df = pd.read_csv("/Users/aliyadavletshina/Desktop/UD_Group/udg/users_data/users_40011245_users.csv")
+df = pd.read_csv("")
 df = df.where(pd.notnull(df), None)
 
 cursor.execute('''
@@ -122,7 +122,7 @@ conn.commit()
 
 
 # %%
-df = pd.read_csv("/Users/aliyadavletshina/Desktop/UD_Group/udg/users_data/users_52015214_users.csv")
+df = pd.read_csv("")
 df = df.where(pd.notnull(df), None)
 
 cursor.execute('''
@@ -157,7 +157,7 @@ for row in df.itertuples():
 conn.commit() 
 
 #%%
-df = pd.read_csv("/Users/aliyadavletshina/Desktop/UD_Group/udg/users_data/users_53322454_users.csv")
+df = pd.read_csv("")
 df = df.where(pd.notnull(df), None)
 
 cursor.execute('''
