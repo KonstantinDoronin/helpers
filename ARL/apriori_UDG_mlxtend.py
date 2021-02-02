@@ -31,3 +31,4 @@ rules = association_rules(frequent_itemsets, metric="lift", min_threshold=0.1)#�
 writer = pd.ExcelWriter(r'')#запишем в Excel
 rules.to_excel(writer, sheet_name = 'test')
 writer.save()
+print("все гуд, чувак")
