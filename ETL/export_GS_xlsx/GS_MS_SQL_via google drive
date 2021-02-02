@@ -1,0 +1,57 @@
+function myFunction() {
+  
+
+  try {
+    var ss = SpreadsheetApp.getActive();
+    var url = "https://docs.google.com/feeds/download/spreadsheets/Export?key=" + ss.getId() + "&exportFormat=xlsx";
+    
+    var folder = ''; // destination folder ID in Goodle Drive
+    var fileName = '' ; // xlsx file in Goodle Drive directory on PC
+    
+
+    var params = {
+      method      : "get",
+      headers     : {"Authorization": "Bearer " + ScriptApp.getOAuthToken()},
+      muteHttpExceptions: true
+    };
+
+    var blob = UrlFetchApp.fetch(url, params).getBlob();
+    blob.setName(ss.getName() + ".xlsx");
+    
+    
+    var file = {
+    title: fileName,
+       parents: [{'id':folder}]
+    };
+    
+    
+    var nameId;
+    var nameName;
+    
+    var allFiles = Drive.Files.list({
+    q: "title ='" + fileName + "'"
+    }).items;
+    
+
+    for (var i = 0; i < allFiles.length; i++)
+    {
+      if (allFiles[i].title == fileName)
+      {
+        Logger.log("true");
+        nameId = allFiles[i].id;
+        Logger.log("returnTemplatedTable -- name id: " + nameId   );
+        nameId = Drive.Files.remove(nameId);
+      }
+      else
+      {
+        Logger.log("false");
+      }
+    }
+    
+    file = Drive.Files.insert(file, blob);
+    
+
+  } catch (f) {
+    Logger.log(f.toString());
+  }
+}

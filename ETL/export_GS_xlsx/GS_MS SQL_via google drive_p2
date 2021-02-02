@@ -1,0 +1,58 @@
+----------------------------------------------------------------
+USE [UDtest]
+GO
+
+ALTER PROCEDURE GSimportProc
+AS
+	DECLARE @lastDate datetime, @message nvarchar(300), @mailaddress nvarchar(300);
+	SET @mailaddress = 'mh.sahabetdinov@ud-group.com';
+	SET XACT_ABORT ON;
+	SET NOCOUNT ON;
+
+BEGIN TRY
+
+---------XXX
+SELECT @lastDate = MAX([������� �������]) FROM  -- ����������� ��������� ������ � ������� ��
+
+INSERT INTO --  ������ �� �������� ����������� �������
+	SELECT * FROM OPENROWSET
+			(
+			'Microsoft.ACE.OLEDB.12.0',
+			'Excel 12.0;
+			Database=', -- ���� � �����
+			'SELECT * FROM [������ �� ����� (1)$]'                                    -- ����������� ����
+			)
+			WHERE [������� �������] IS NOT NULL -- ��������  [������� �������] �������� ������ �� �������� ��� �������������� �������� ������ �����
+			AND [������� �������] > @lastDate   -- ������� ��������� �������
+
+
+
+---------
+SELECT @lastDate = MAX([������� �������]) FROM  -- ����������� ��������� ������ � ������� ��
+
+INSERT INTO googleFormsSurvey.O ������ �� �������� ����������� �������
+	SELECT * FROM OPENROWSET
+			(
+			'Microsoft.ACE.OLEDB.12.0',
+			'Excel 12.0;
+			Database=', -- ���� � �����
+			'SELECT * FROM [������ �� ����� (1)$]'                                    -- ����������� ����
+			)
+			WHERE [������� �������] IS NOT NULL -- ��������  [������� �������] �������� ������ �� �������� ��� �������������� �������� ������ �����
+			AND [������� �������] > @lastDate   -- ������� ��������� �������
+
+
+END TRY
+
+BEGIN CATCH
+	IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION
+    PRINT 'Error ' + CONVERT(VARCHAR, ERROR_NUMBER()) + ':' + ERROR_MESSAGE()
+				-------------�������� ����������� --------------
+				SET @message = '����������� ������ ! ''' + CONVERT(VARCHAR, ERROR_NUMBER()) + ''':''' + ERROR_MESSAGE()+ ''''
+				EXECUTE msdb.dbo.sp_send_dbmail
+					@profile_name = 'SQLreport',
+					@recipients = @mailaddress,
+					@subject = '������ ������� GS',
+					@body = @message,
+					@body_format = 'TEXT';
+END CATCH
