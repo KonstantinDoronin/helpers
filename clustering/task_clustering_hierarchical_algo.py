@@ -2,10 +2,8 @@ import pandas as pd
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import *
 from matplotlib import pyplot as plt
-from sklearn.preprocessing import MinMaxScaler, StandardScaler
-from matplotlib import rc
 import numpy as np
-from sklearn.cluster import KMeans
+
 data = pd.read_excel(r'C:\Users\kv.doronin\Desktop\Посещаемость_ГП_Python\082018\test_hierar.xlsx', na_values='?')#подгружаем данные в данных содержатся пустые ячейки
 print(data.head())
 # посомтрим основные статистические параметры данных

@@ -2,7 +2,6 @@ import pandas as pd
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import *
 from matplotlib import pyplot as plt
-from matplotlib import rc
 import numpy as np
 from sklearn.cluster import KMeans
 # Загрузим данные из xls документа
